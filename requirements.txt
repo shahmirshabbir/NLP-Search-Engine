@@ -1,5 +1,7 @@
 huggingface_hub<1
 pydantic<2.10
+starlette<0.38
+fastapi<0.113
 sentence-transformers>=3.0,<4
 faiss-cpu>=1.8
 pandas>=2.0
