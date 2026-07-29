@@ -1,4 +1,5 @@
 huggingface_hub<1
+pydantic<2.10
 sentence-transformers>=3.0,<4
 faiss-cpu>=1.8
 pandas>=2.0
