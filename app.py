@@ -102,4 +102,9 @@ with gr.Blocks(title="Semantic Product Search") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    # show_api=False skips generating the OpenAPI/schema docs page at launch.
+    # This works around a known bug in this gradio version's gradio_client
+    # schema builder (crashes on dict-typed outputs with a TypeError in
+    # get_type()). The UI itself and the registered endpoints still work —
+    # this only disables the auto-generated "View API" docs page.
+    demo.launch(show_api=False)
