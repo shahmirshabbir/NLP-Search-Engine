@@ -22,6 +22,7 @@ Provides:
 """
 
 import gradio as gr
+import spaces
 
 from inference import SemanticSearch
 
@@ -30,6 +31,17 @@ DATA_DIR = "data"
 print("[app] loading search engine...")
 engine = SemanticSearch(directory=DATA_DIR)
 print("[app] ready")
+
+
+@spaces.GPU
+def _claim_gpu():
+    """
+    Dummy function required by ZeroGPU Spaces: at least one @spaces.GPU
+    function must exist in the app or startup fails with
+    'No @spaces.GPU function detected'. This is never actually called —
+    all real search logic below runs on CPU as intended.
+    """
+    pass
 
 
 def search(query: str, k: int):
