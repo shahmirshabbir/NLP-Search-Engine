@@ -1,5 +1,4 @@
-gradio==4.44.1
-huggingface_hub==0.25.2
+huggingface_hub<1
 sentence-transformers>=3.0,<4
 faiss-cpu>=1.8
 pandas>=2.0
