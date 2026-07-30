@@ -43,12 +43,12 @@ def _claim_gpu():
 
 
 def search(query: str, k: int) -> str:
-    """Returns the raw ProductIDs from engine.search(), one per line."""
+    """Returns the image URLs from engine.search_image_urls(), one per line."""
     if not query or not query.strip():
         return ""
 
-    ids = engine.search(query, k=int(k))
-    return "\n".join(str(pid) for pid in ids)
+    urls = engine.search_image_urls(query, k=int(k))
+    return "\n".join(urls)
 
 
 with gr.Blocks(title="Semantic Product Search") as demo:
@@ -72,7 +72,7 @@ with gr.Blocks(title="Semantic Product Search") as demo:
     search_button = gr.Button("Search", variant="primary")
 
     output_box = gr.Textbox(
-        label="Product IDs",
+        label="Image URLs",
         lines=15,
         show_copy_button=True,
     )

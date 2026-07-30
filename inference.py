@@ -11,6 +11,8 @@ Example:
     engine = SemanticSearch(directory="./data")
     results = engine.search("red running shoes for men", k=10)
     # -> ['P10234', 'P10981', ...]  (external ProductIDs)
+    urls = engine.search_image_urls("red running shoes for men", k=10)
+    # -> ['https://huggingface.co/datasets/.../1/P10234.jpg', ...]
 """
 
 import os
@@ -119,23 +121,22 @@ class SemanticSearch:
         return subset.to_dict(orient="records")
 
     @staticmethod
-    def image_url_for(product_id) -> str:
-        """
-        Build the public image URL for a ProductID.
-        Folder = first character of the ProductID, filename = full ProductID + .jpg
-        e.g. "11338" -> ".../1/11338.jpg", "43628" -> ".../4/43628.jpg"
-        """
-        pid = str(product_id)
-        folder = pid[0]
-        return f"{IMAGE_BASE_URL}/{folder}/{pid}.jpg"
+    def _build_image_url(ext_id) -> str:
+        """images/{first_digit_of_id}/{id}.jpg on the Products-Catalog dataset repo."""
+        id_str = str(ext_id)
+        fdr_id = id_str[0]
+        return f"{IMAGE_BASE_URL}/{fdr_id}/{id_str}.jpg"
 
-    def search_image_urls(self, query: str, k: int = 10) -> dict:
+    def search_image_urls(self, query: str, k: int = 10) -> list:
         """
-        Returns results in the API response shape:
-            {"results": {"0": "<url>", "1": "<url>", ...}}
+        Search for the k nearest products to the query text.
+
+        Returns:
+            list[str]: image URLs, e.g.
+                "https://huggingface.co/datasets/shahmirshabir/Products-Catalog/resolve/main/9/9001.jpg"
         """
         ids = self.search(query, k)
-        return {"results": {str(i): self.image_url_for(pid) for i, pid in enumerate(ids)}}
+        return [self._build_image_url(pid) for pid in ids]
 
     # ------------------------------------------------------------------ #
     # mutation (optional — keep out of a read-only portfolio demo if you
@@ -232,9 +233,9 @@ class SemanticSearch:
         self.train_data.to_csv(self.data_path, index=False)
 
 
-if __name__ == "__main__":
-    # quick manual smoke test
-    engine = SemanticSearch(directory="./data")
-    q = input("Search query: ")
-    for pid in engine.search(q, k=10):
-        print(pid)
+# if __name__ == "__main__":
+#     # quick manual smoke test
+#     engine = SemanticSearch(directory="./data")
+#     q = input("Search query: ")
+#     for pid in engine.search(q, k=10):
+#         print(pid)
