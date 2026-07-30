@@ -1,5 +1,5 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-data/all-MiniLM-L6-v2/
+# data/all-MiniLM-L6-v2/
 .DS_Store
