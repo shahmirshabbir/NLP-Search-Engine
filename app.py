@@ -48,7 +48,7 @@ def search(query: str, k: int) -> str:
         return ""
 
     urls = engine.search_image_urls(query, k=int(k))
-    return "\n".join(urls)
+    return gr.JSON(urls)
 
 
 with gr.Blocks(title="Semantic Product Search") as demo:
