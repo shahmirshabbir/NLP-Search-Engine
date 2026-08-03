@@ -1,8 +1,9 @@
-huggingface_hub<1
 pydantic<2.10
 starlette<0.38
 fastapi<0.113
-sentence-transformers>=3.0,<4
+sentence-transformers==5.4.1
+transformers==4.49.0
+huggingface-hub==0.36.0
 faiss-cpu>=1.8
 pandas>=2.0
 numpy>=1.26,<2
